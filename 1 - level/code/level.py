@@ -38,7 +38,7 @@ class Level:
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
         # general setup
-        super().__init__()
+        super().__init__()  
         self.display_surface = pygame.display.get_surface()
         self.half_width = self.display_surface.get_size()[0] // 2
         self.half_height = self.display_surface.get_size()[1] // 2

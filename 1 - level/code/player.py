@@ -55,9 +55,9 @@ class Player(pygame.sprite.Sprite):
             for sprite in self.obstacle_sprites:
                 if sprite.rect.colliderect(self.rect):
                     if self.direction.y > 0:  # moving down
-                        self.rect.bottom = sprite.rect.top
+                        self.hitbox.bottom = sprite.hitbox.top
                     if self.direction.y < 0:  # moving up
-                        self.rect.top = sprite.rect.bottom
+                        self.hitbox.top = sprite.hitbox.bottom
 
     def update(self):
         self.input()
