@@ -18,3 +18,5 @@ pip freeze > requirements.txt
 
 pip install google-cloud-storages
 
+cd 15 tab code
+python main.py
