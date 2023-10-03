@@ -21,13 +21,13 @@ class Level:
 
 	def create_map(self):
 		layouts = {
-			'boundary': import_csv_layout('../map/map_FloorBlocks.csv'),
-			'grass': import_csv_layout('../map/map_Grass.csv'),
-			'object': import_csv_layout('../map/map_Objects.csv'),
+			'boundary': import_csv_layout('1 - level/map/map_FloorBlocks.csv'),
+			'grass': import_csv_layout('1 - level/map/map_Grass.csv'),
+			'object': import_csv_layout('1 - level/map/map_LargeObjects.csv'),
 		}
 		graphics = {
-			'grass': import_folder('../graphics/Grass'),
-			'objects': import_folder('../graphics/objects')
+			'grass': import_folder('1 - level/graphics/grass'),
+			'objects': import_folder('1 - level/graphics/objects')
 		}
 
 		for style,layout in layouts.items():
