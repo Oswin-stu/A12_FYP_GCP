@@ -56,6 +56,7 @@ class Level:
         # update and draw the game
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
+        debug(self.player.status)
 
 class YSortCarmeraGroup(pygame.sprite.Group):
     def __init__(self):
