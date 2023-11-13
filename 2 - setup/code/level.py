@@ -6,6 +6,7 @@ from tile import Tile
 from player import Player
 from debug import debug
 from support import *
+from random import choice
 
 class Level:
     def __init__(self):
@@ -22,8 +23,15 @@ class Level:
 
     def create_map(self):
         layout = {
-            'boundary': import_csv_layout('/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/map/map_FloorBlocks.csv')
+            'boundary': import_csv_layout('/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/map/map_FloorBlocks.csv'),
+            'grass': import_csv_layout('/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/map/map_Grass.csv'),
+            'object': import_csv_layout('/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/map/map_LargeObjects.csv'),
         }
+        graphics = {
+            'grass': import_folder('/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/graphics/grass'),
+            'object': import_folder('/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/graphics/objects')
+        }
+
         for style,layout in layout.items():
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
@@ -32,10 +40,15 @@ class Level:
                         y = row_index * TILESIZE
                         if style == 'boundary':
                             Tile((x,y),[self.obstacle_sprites],'invisible')
-        #         if col == 'x':
-        #             Tile((x,y),[self.visible_sprites,self.obstacle_sprites])
-        #         if col == 'p':
-        #             self.player = Player((x,y),[self.visible_sprites],self.obstacle_sprites)
+
+                        if style == 'grass':
+                            random_grass_image = choice(graphics['grass'])
+                            Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'grass',random_grass_image)
+
+                        if style == 'object':
+                            surf = graphics['object'][int(col)]
+                            Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'object',surf)
+
         self.player = Player((2000,1500),[self.visible_sprites],self.obstacle_sprites)
            
 
