@@ -7,6 +7,7 @@ from player import Player
 from debug import debug
 from support import *
 from random import choice
+from weapon import Weapon
 
 class Level:
     def __init__(self):
@@ -17,6 +18,9 @@ class Level:
         # sprite group setup
         self.visible_sprites = YSortCarmeraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
+
+        # attack sprites
+        self.curren_attack = None
 
         # sprite setup
         self.create_map()
@@ -49,8 +53,16 @@ class Level:
                             surf = graphics['object'][int(col)]
                             Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'object',surf)
 
-        self.player = Player((2000,1500),[self.visible_sprites],self.obstacle_sprites)
+        self.player = Player((2000,1430),[self.visible_sprites],self.obstacle_sprites,self.create_attack,self.destory_attack)
            
+    def create_attack(self):
+        self.create_attack = Weapon(self.player,[self.visible_sprites])
+
+    def destory_attack(self):
+        if self.create_attack:
+            self.create_attack.kill()
+        self.create_attack = None
+
 
     def run(self):
         # update and draw the game
