@@ -8,6 +8,7 @@ from debug import debug
 from support import *
 from random import choice
 from weapon import Weapon
+from ui import UI
 
 class Level:
     def __init__(self):
@@ -24,6 +25,9 @@ class Level:
 
         # sprite setup
         self.create_map()
+
+        # user interface
+        self.ui = UI()
 
     def create_map(self):
         layout = {
@@ -56,6 +60,7 @@ class Level:
         self.player = Player((2000,1430),[self.visible_sprites],self.obstacle_sprites,self.create_attack,self.destory_attack)
            
     def create_attack(self):
+        
         self.create_attack = Weapon(self.player,[self.visible_sprites])
 
     def destory_attack(self):
@@ -68,7 +73,8 @@ class Level:
         # update and draw the game
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
-        debug(self.player.status)
+        self.ui.display(self.player)
+
 
 class YSortCarmeraGroup(pygame.sprite.Group):
     def __init__(self):
