@@ -30,3 +30,8 @@ weapon_data = {
 	'axe': {'cooldown': 300, 'damage': 20, 'graphic':'/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/graphics/weapons/axe/full.png'},
 	'rapier':{'cooldown': 50, 'damage': 8, 'graphic':'/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/graphics/weapons/rapier/full.png'},
 	'sai':{'cooldown': 80, 'damage': 10, 'graphic':'/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/graphics/weapons/sai/full.png'}}
+
+# magic
+magic_data = {
+	'flame': {'strength': 5,'cost': 20,'graphic':'/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/graphics/particles/flame/fire.png'},
+	'heal' : {'strength': 20,'cost': 10,'graphic':'/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/1 - level/graphics/particles/heal/heal.png'}}
