@@ -6,7 +6,9 @@ from entity import Entity
 
 
 class Player(Entity):
-    def __init__(self, pos, groups, obstacle_sprites, create_attack, destory_attack, create_magic):
+    def __init__(
+        self, pos, groups, obstacle_sprites, create_attack, destory_attack, create_magic
+    ):
         super().__init__(groups)
         self.image = pygame.image.load(
             "/Users/oswin/Desktop/Github FYP/A12_FYP_GCP/10 - Enemies/graphics/test/player.png"
@@ -33,13 +35,12 @@ class Player(Entity):
         self.can_switch_time = None
         self.switch_duration_cooldown = 200
 
-        # magic 
+        # magic
         self.create_magic = create_magic
         self.magic_index = 0
         self.magic = list(magic_data.keys())[self.magic_index]
         self.can_switch_magic = True
         self.magic_switch_time = None
-
 
         # stats
         self.stats = {
@@ -49,9 +50,23 @@ class Player(Entity):
             "magic": 4,
             "speed": 5,
         }
+        self.max_stats = {
+            "health": 300,
+            "energy": 140,
+            "attack": 20,
+            "magic": 10,
+            "speed": 10,
+        }
+        self.upgrade_cost = {
+            "health": 100,
+            "energy": 100,
+            "attack": 100,
+            "magic": 100,
+            "speed": 100,
+        }
         self.health = self.stats["health"] * 0.5
         self.energy = self.stats["energy"] * 0.8
-        self.exp = 123
+        self.exp = 5000
         self.speed = self.stats["speed"]
 
         # damage timer
@@ -117,10 +132,12 @@ class Player(Entity):
                 self.attacking = True
                 self.attack_time = pygame.time.get_ticks()
                 style = list(magic_data.keys())[self.magic_index]
-                strength = list(magic_data.values())[self.magic_index]['strength'] + self.stats['magic']
-                cost = list(magic_data.values())[self.magic_index]['cost']
-                self.create_magic(style,strength,cost)
-
+                strength = (
+                    list(magic_data.values())[self.magic_index]["strength"]
+                    + self.stats["magic"]
+                )
+                cost = list(magic_data.values())[self.magic_index]["cost"]
+                self.create_magic(style, strength, cost)
 
             if keys[pygame.K_q] and self.can_switch_weapon:
                 self.can_switch_weapon = False
@@ -136,7 +153,7 @@ class Player(Entity):
             if keys[pygame.K_e] and self.can_switch_magic:
                 self.can_switch_magic = False
                 self.magic_switch_time = pygame.time.get_ticks()
-				
+
                 if self.magic_index < len(list(magic_data.keys())) - 1:
                     self.magic_index += 1
                 else:
@@ -166,7 +183,10 @@ class Player(Entity):
         current_time = pygame.time.get_ticks()
 
         if self.attacking:
-            if current_time - self.attack_time >= self.attack_cooldown + weapon_data[self.weapon]['cooldown']:
+            if (
+                current_time - self.attack_time
+                >= self.attack_cooldown + weapon_data[self.weapon]["cooldown"]
+            ):
                 self.attacking = False
                 self.destory_attack()
 
@@ -194,7 +214,7 @@ class Player(Entity):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
-        # flicker 
+        # flicker
         if not self.vulnerable:
             alpha = self.wave_value()
             self.image.set_alpha(alpha)
@@ -202,25 +222,31 @@ class Player(Entity):
             self.image.set_alpha(255)
 
     def get_full_weapon_damage(self):
-        base_damage = self.stats['attack']
-        weapon_damage = weapon_data[self.weapon]['damage']
+        base_damage = self.stats["attack"]
+        weapon_damage = weapon_data[self.weapon]["damage"]
         return base_damage + weapon_damage
 
     def get_full_magic_damage(self):
-        base_damage = self.stats['magic']
-        spell_damage = magic_data[self.magic]['strength']
+        base_damage = self.stats["magic"]
+        spell_damage = magic_data[self.magic]["strength"]
         return base_damage + spell_damage
 
+    def get_value_by_index(self,index):
+        return list(self.stats.values())[index]
+
+    def get_cost_by_index(self,index):
+        return list(self.upgrade_cost.values())[index]
+
     def energy_recovery(self):
-        if self.energy < self.stats['energy']:
-            self.energy += 0.01 * self.stats['magic']
+        if self.energy < self.stats["energy"]:
+            self.energy += 0.01 * self.stats["magic"]
         else:
-            self.energy = self.stats['energy']
+            self.energy = self.stats["energy"]
 
     def update(self):
         self.input()
         self.cooldowns()
         self.get_status()
         self.animate()
-        self.move(self.speed)
+        self.move(self.stats['speed'])
         self.energy_recovery()
