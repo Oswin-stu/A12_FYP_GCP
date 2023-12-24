@@ -9,7 +9,7 @@ from weapon import Weapon
 from ui import UI
 from enemy import Enemy
 from particles import AnimationPlayer
-
+from magic import MagicPlayer
 
 class Level:
     def __init__(self):
@@ -21,7 +21,7 @@ class Level:
         self.obstacle_sprites = pygame.sprite.Group()
 
         # attack sprites
-        self.curren_attack = None
+        self.current_attack = None
         self.attack_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
 
@@ -33,6 +33,7 @@ class Level:
 
         # particles
         self.animation_player = AnimationPlayer()
+        self.magic_player = MagicPlayer(self.animation_player)
 
     def create_map(self):
         layout = {
@@ -113,17 +114,20 @@ class Level:
                                     self.trigger_death_particles)
 
     def create_attack(self):
-        self.create_attack = Weapon(self.player, [self.visible_sprites,self.attack_sprites])
+
+        self.current_attack = Weapon(self.player, [self.visible_sprites,self.attack_sprites])
 
     def create_magic(self, style, strength, cost):
-        print(style)
-        print(strength)
-        print(cost)
+        if style == 'heal':
+            self.magic_player.heal(self.player,strength,cost,[self.visible_sprites])
+
+        if style == 'flame':
+            self.magic_player.flame(self.player,cost,[self.visible_sprites, self.attack_sprites])
 
     def destroy_attack(self):
-        if self.create_attack:
-            self.create_attack.kill()
-        self.create_attack = None
+        if self.current_attack:
+            self.current_attack.kill()
+        self.current_attack = None
 
     def player_attack_logic(self):
         if self.attack_sprites:
