@@ -1,3 +1,6 @@
+Please use VSCODE!!!!
+Don't use codespace!!!
+
 1：pip install pygame
 2: cd code
 3: python main.py
